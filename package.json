@@ -1,0 +1,34 @@
+{
+  "name": "sitgent",
+  "version": "0.0.1",
+  "description": "A set of tools for testing Sveltish apps",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -cw"
+  },
+  "keywords": [],
+  "author": "Kafungo Wangure",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup": "^2.71.1",
+    "rollup-plugin-bundle-imports": "^1.5.1",
+    "svelte": "^3.48.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "@testing-library/dom": "^8.13.0",
+    "magic-string": "^0.26.1",
+    "uvu": "^0.5.3"
+  },
+  "exports": {
+    ".": "./dist",
+    "./package.json": "./package.json",
+    "./assert": "./dist/assert.js",
+    "./dom": "./dist/dom.js",
+    "./plugin": "./dist/plugin.js",
+    "./test": "./dist/test.js"
+  }
+}

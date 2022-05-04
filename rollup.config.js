@@ -26,7 +26,9 @@ export default {
             },
         }),
         commonjs(),
-        resolve(),
+        resolve({
+            browser: true,
+        }),
         {
             renderStart(outputOptions) {
                 if (outputOptions.dir) {

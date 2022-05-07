@@ -23,5 +23,5 @@ Object.keys(dtlFireEvent).forEach((key) => {
     }
 });
 
-export * from "@testing-library/dom/dist/@testing-library/dom.esm.js";
 export { act, fireEvent };
+export * from "@testing-library/dom/dist/@testing-library/dom.esm.js";

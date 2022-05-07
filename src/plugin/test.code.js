@@ -1,5 +1,5 @@
 import Component, { test } from "__COMPONENT_PATH__";
-import { getQueriesForElement, prettyDOM } from "@testing-library/dom/dist/@testing-library/dom.esm.js";
+import { getQueriesForElement } from "@testing-library/dom/dist/@testing-library/dom.esm.js";
 import userEvent from "@testing-library/user-event";
 
 class Context {
@@ -21,7 +21,7 @@ class Context {
         return {
             container: this._target,
             component: this._component,
-            debug: (el = this._target) => console.log(prettyDOM(el)),
+            debug: (el = this._target) => console.log(el),
             rerender: _render,
             unmount: () => {
                 this._component?.$destroy();

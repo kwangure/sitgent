@@ -1,5 +1,5 @@
 import domTestingLibraryCode from "./dom-testling-library.code.js";
-import { selectors as _selectors } from "@playwright/test";
+import { selectors as _selectors } from "playwright";
 
 export async function queries({ selectors }, use) {
     const queries = {

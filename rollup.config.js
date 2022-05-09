@@ -70,8 +70,8 @@ function patchPlaywright() {
 }
 
 /**
- * Remove the `pretty-format` plugin and augment playwright to make
- * the package more friendly to ESM consumers and browser environments
+ * Remove the `pretty-format` cjs package and to make the Sitgent more friendly
+ * to ESM consumers and browser environments
  * @param {{}} options
  * @returns {import("rollup").Plugin}
  */

@@ -9,11 +9,8 @@ import MagicString from "magic-string";
 
 export default {
     input: {
-        assert: "./src/assert.js",
-        dom: "./src/dom.js",
         fixtures: "./src/fixtures/index.js",
         plugin: "./src/plugin/index.js",
-        test: "./src/test.js",
     },
     output: {
         dir: "dist",
@@ -21,15 +18,7 @@ export default {
     },
     external: ["playwright", "@playwright/test"],
     plugins: [
-        bundleImports({
-            options: {
-                external: ["__COMPONENT_PATH__"],
-                output: {
-                    format: "esm",
-                    preferConst: true,
-                }
-            },
-        }),
+        bundleImports(),
         commonjs(),
         resolve({
             browser: true,

@@ -33,11 +33,8 @@
   "exports": {
     ".": "./dist",
     "./package.json": "./package.json",
-    "./assert": "./dist/assert.js",
-    "./dom": "./dist/dom.js",
     "./fixtures": "./dist/fixtures.js",
     "./playwright-test": "./dist/playwright-test/index.js",
-    "./plugin": "./dist/plugin.js",
-    "./test": "./dist/test.js"
+    "./plugin": "./dist/plugin.js"
   }
 }

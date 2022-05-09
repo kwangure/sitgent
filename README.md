@@ -1,15 +1,23 @@
 # sitgent
-An anagram of *testing*. An experimental Vite plugin (*with aspirations* 🙃) to run
+An anagram of *testing*. An experimental Vite plugin that runs
 [@playwright/test](https://github.com/Microsoft/playwright) in
 [SvelteKit](https://github.com/sveltejs/kit) projects during development.
 
 ## Getting Started
+### Installation
+```
+npm install -D sitgent
+```
+### Usage
 Use the Sitgent fixtures for the `queries`
 ([dom-testing-library](https://testing-library.com/docs/queries/about)) and
 `selectors` ([playwright](https://playwright.dev/docs/selectors)) APIs.
 
-> NOTE: Only the `getByRole` query in dom-testing-library has been implemented as a proof concept. In addition to all @playwright/test's selectors, a role selector (i.e `"role=..."`) has been added.
-
+> **NOTE**
+>
+> a) In addition to @playwright/test's built-in selectors, a role selector (i.e `"role=..."`) has been added.
+>
+> b) Only the `getByRole` query in dom-testing-library has been implemented as a proof concept.
 
 An exampe test file `switch.test.js`:
 ```javascript
@@ -20,10 +28,10 @@ const test = baseTest.extend(fixtures);
 
 test("Toggle switch", async ({ page, queries }) => {
     await page.goto("http://localhost:3000/components/switch");
-    const switchLocator = await queries.getByRole("switch");
-    await expect(switchLocator, "Switch 'input' should be checked when 'checked' prop is true.").toBeChecked();
-    await switchLocator.click();
-    await expect(switchLocator, "Switch 'input' should toggle checked when clicked.").not.toBeChecked();
+    const checkboxSwitch = await queries.getByRole("switch");
+    await expect(checkboxSwitch).toBeChecked();
+    await checkboxSwitch.click();
+    await expect(checkboxSwitch).not.toBeChecked();
 });
 ```
 

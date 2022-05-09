@@ -17,6 +17,7 @@
     "@playwright/test": "^1.21.1",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "magic-string": "^0.26.1",
     "rollup": "^2.71.1",
     "rollup-plugin-bundle-imports": "^1.5.1",
     "svelte": "^3.48.0"
@@ -26,9 +27,7 @@
     "@testing-library/dom": "^8.13.0",
     "@testing-library/user-event": "^14.1.1",
     "acorn-walk": "^8.2.0",
-    "magic-string": "^0.26.1",
-    "playwright": "^1.21.1",
-    "uvu": "^0.5.3"
+    "playwright": "^1.21.1"
   },
   "exports": {
     ".": "./dist",

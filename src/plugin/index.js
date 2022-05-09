@@ -1,4 +1,4 @@
-import { runTests } from "./test-runner.js";
+import { createTestRunner } from "./test-runner.js";
 
 /**
  * @param {{}} [options]
@@ -21,15 +21,12 @@ import { runTests } from "./test-runner.js";
             const protocol = config.server.https ? "https" : "http";
             const port = config.server.port;
             const baseUrl = `${protocol}://localhost:${port}`;
-            let started = false;
+            const runner = createTestRunner({ baseUrl, playwright });
             server.httpServer?.once("listening", async () => {
-                started = true;
-                await runTests({ baseUrl, playwright });
+                await runner.run();
             });
             server.watcher?.on("all", async () => {
-                if (started) {
-                    await runTests({ baseUrl, playwright });
-                }
+                await runner.rerun();
             });
         },
     };

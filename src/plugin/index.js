@@ -18,11 +18,18 @@ import { runTests } from "./test-runner.js";
         },
         configureServer(_server) {
             server = _server;
+            const protocol = config.server.https ? "https" : "http";
+            const port = config.server.port;
+            const baseUrl = `${protocol}://localhost:${port}`;
+            let started = false;
             server.httpServer?.once("listening", async () => {
-                const protocol = config.server.https ? "https" : "http";
-                const port = config.server.port;
-                const baseUrl = `${protocol}://localhost:${port}`;
+                started = true;
                 await runTests({ baseUrl, playwright });
+            });
+            server.watcher?.on("all", async () => {
+                if (started) {
+                    await runTests({ baseUrl, playwright });
+                }
             });
         },
     };

@@ -6,14 +6,16 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -cw",
+    "prepack": "node ./scripts/npm-prepack.js",
+    "postpack": "node ./scripts/npm-postpack.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "Kafungo Wangure",
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.21.1",
     "@rollup/plugin-commonjs": "^22.0.0",
-    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "rollup": "^2.71.1",
     "rollup-plugin-bundle-imports": "^1.5.1",
@@ -21,7 +23,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@playwright/test": "^1.21.1",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/user-event": "^14.1.1",
     "acorn-walk": "^8.2.0",
@@ -34,7 +35,8 @@
     "./package.json": "./package.json",
     "./assert": "./dist/assert.js",
     "./dom": "./dist/dom.js",
-    "./playwright": "./dist/playwright.js",
+    "./fixtures": "./dist/fixtures.js",
+    "./playwright-test": "./dist/playwright-test/index.js",
     "./plugin": "./dist/plugin.js",
     "./test": "./dist/test.js"
   }

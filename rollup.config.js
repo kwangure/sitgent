@@ -1,7 +1,7 @@
+import { copy, read, write } from "./src/utils/filesystem.js";
 import { bundleImports } from "rollup-plugin-bundle-imports";
 import commonjs from "@rollup/plugin-commonjs";
 import fs from "fs";
-import json from "@rollup/plugin-json";
 import pack from './scripts/pack.js';
 import resolve from "@rollup/plugin-node-resolve";
 import walk from "acorn-walk";
@@ -11,7 +11,7 @@ export default {
     input: {
         assert: "./src/assert.js",
         dom: "./src/dom.js",
-        playwright: "./src/playwright/fixtures.js",
+        fixtures: "./src/fixtures/index.js",
         plugin: "./src/plugin/index.js",
         test: "./src/test.js",
     },
@@ -31,11 +31,11 @@ export default {
             },
         }),
         commonjs(),
-        json(),
         resolve({
             browser: true,
         }),
         patchPrettyFormat(),
+        patchPlaywright(),
         {
             renderStart(outputOptions) {
                 if (outputOptions.dir) {
@@ -43,11 +43,41 @@ export default {
                 }
             },
             resolveImportMeta(property) {
+                // Leave `import.meta.hot` untouched for Vite plugin
                 if (property === "hot") return "import.meta.hot";
             },
             writeBundle: pack,
         },
     ],
+}
+
+/**
+ * Bundle Playwright Test internals since Node won't let us import internal
+ * paths not in package.json exports
+ * @returns {import("rollup").Plugin}
+ */
+function patchPlaywright() {
+    return {
+        name: "plugin-bundle-playwright",
+        resolveId(id) {
+            // Where the bundled `@playwright/test` will endup
+            if (id.startsWith("./playwright-test/")) return { id, external: true };
+        },
+        writeBundle(outputOptions) {
+            const from = "./node_modules/@playwright/test/lib";
+            const to = `${outputOptions.dir}/playwright-test/`;
+            const { version } = JSON.parse(read("./node_modules/@playwright/test/package.json"));
+            copy(from, to, {
+                transform(id, x) {
+                    if (id === "node_modules/@playwright/test/lib/loader.js") {
+                        return x.replace("require('../package.json').version", JSON.stringify(version));
+                    }
+                    return x;
+                },
+            });
+            write(`${to}/package.json`, JSON.stringify({ type: "commonjs" }));
+        }
+    };
 }
 
 /**
@@ -111,47 +141,6 @@ function patchPrettyFormat(options = {}) {
                     map: magicString.generateMap(),
                 };
             }
-
-            if (id.includes("node_modules/playwright-core/lib/utils/stackTrace.js")) {
-                const magicString = new MagicString(code);
-                walk.ancestor(this.parse(code), {
-                    VariableDeclarator(node) {
-                        let replaceString = "";
-                        switch (node.id.name) {
-                            case "CORE_DIR":
-                                replaceString = `var debug = console.log;`;
-                                break;
-                            case "screen":
-                                replaceString = `var screen = getQueriesForElement(document.body, queries, initialValue)`;
-                                break;
-                            case "DOMCollection":
-                                break;
-                            default:
-                                return;
-                        }
-                        magicString.overwrite(
-                            node.start - 4, // var start
-                            node.end + 1, // semi colon end
-                            replaceString,
-                        );
-                    },
-                    ExportNamedDeclaration(node) {
-                        node.specifiers.forEach((specifier) => {
-                            if (specifier.local.name === "prettyFormat") {
-                                let { end, start } = specifier;
-                                // prevent double commas e.g `export { a , , b };`
-                                while (code[end] === "," || code[end] === " ") end++;
-                                magicString.overwrite(start, end, "");
-                            }
-                        });
-                    },
-                });
-                return {
-                    code: magicString.toString(),
-                    map: magicString.generateMap(),
-                };
-            }
         },
     };
 }
-

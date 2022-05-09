@@ -18,4 +18,4 @@ for (const key in playwrightPkg.dependencies) {
 }
 
 Object.assign(pkg.dependencies, playwrightPkg.dependencies);
-fs.writeFileSync(pkgPath, JSON.stringify(pkg));
+fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));

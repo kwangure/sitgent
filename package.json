@@ -5,15 +5,12 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -cw",
-    "prepack": "node ./scripts/npm-prepack.js",
-    "postpack": "node ./scripts/npm-postpack.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "Kafungo Wangure",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.21.1",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "magic-string": "^0.26.1",
@@ -23,6 +20,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@playwright/test": "^1.21.1",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/user-event": "^14.1.1",
     "acorn-walk": "^8.2.0",

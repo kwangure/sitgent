@@ -7,26 +7,15 @@ const resolvedOptions = resolveOptions(options.playwright);
 const { browser } = resolvedOptions;
 if (browser) {
     const browserOpt = browser.toLowerCase();
-    if (!['all', 'chromium', 'firefox', 'webkit'].includes(browserOpt)) {
+    if (!["all", "chromium", "firefox", "webkit"].includes(browserOpt)) {
         throw new Error(`Unsupported browser "${opts.browser}", must be one of "all", "chromium", "firefox" or "webkit"`);
     }
-    const browserNames = browserOpt === 'all'
-        ? ['chromium', 'firefox', 'webkit']
+    const browserNames = browserOpt === "all"
+        ? ["chromium", "firefox", "webkit"]
         : [browserOpt];
     Object.assign(resolvedOptions, {
         projects: browserNames.map((name) => ({ name, use: { name } })),
     });
-}
-
-if (options.headed || options.debug) {
-    resolvedOptions.use = { headless: false };
-}
-
-if (options.debug) {
-    resolvedOptions.maxFailures = 1;
-    resolvedOptions.timeout = 0;
-    resolvedOptions.workers = 1;
-    process.env.PWDEBUG = "1";
 }
 
 const runner = new Runner(resolvedOptions);
@@ -49,7 +38,7 @@ function resolveOptions(options = {}) {
     const shardPair = options.shard
         ? options.shard.split('/').map((t) => parseInt(t, 10))
         : undefined;
-    return {
+    const resolvedOptions = {
         forbidOnly: options.forbidOnly
             ? true
             : undefined,
@@ -91,10 +80,19 @@ function resolveOptions(options = {}) {
         updateSnapshots: options.updateSnapshots
             ? 'all'
             : undefined,
+        use: options.use ? options.use: {},
         workers: options.workers
             ? parseInt(options.workers, 10)
             : undefined,
     };
+
+    if (options.debug) {
+        Object.assign(resolvedOptions.use, { headless: false });
+        Object.assign(resolvedOptions, { maxFailures: 1, timeout: 0, workers: 1 });
+        process.env.PWDEBUG = "1";
+    }
+
+    return resolvedOptions;
 }
 
 function forceRegExp(pattern) {

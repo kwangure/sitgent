@@ -1,6 +1,18 @@
-export interface PlaywrightConfigOptions {
+export interface PluginOptions {
+    files?: {
+        tests?: string;
+    };
+    playwright?: import("@playwright/test").Config;
+}
+
+export interface RunnerOptions {
     /**
-     * Shard tests and execute only the selected shard, specify in the form "current/all", 1-based, for example "3/5"
+     * A function which returns a Promise that resolves to a CJS or ESM module
      */
-    shard?: string;
+    importFile: (file: string) => Promise<Record<string, any>>;
+
+    /**
+     * Playwright JavaScript Config
+     */
+    playwrightConfig: import("@playwright/test").Config;
 }

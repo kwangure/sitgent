@@ -9,17 +9,31 @@ An anagram of *testing*. An experimental Vite plugin that runs
 npm install -D sitgent
 ```
 ### Usage
-Use the Sitgent fixtures for the `queries`
-([dom-testing-library](https://testing-library.com/docs/queries/about)) and
+Load the `queries` fixture to use the
+([dom-testing-library](https://testing-library.com/docs/queries/about)) and add `dom-testing-library`-type
 `selectors` ([playwright](https://playwright.dev/docs/selectors)) APIs.
 
-> **NOTE**
->
-> a) In addition to @playwright/test's built-in selectors, a role selector (i.e `"role=..."`) has been added.
->
-> b) Only the `getByRole` query in dom-testing-library has been implemented as a proof concept.
+#### DOM Testing Library queries
+- `queries.getByAltText(alt)`
+- `queries.getByDisplayValue(displayValue)`
+- `queries.getByLabelText(label)`
+- `queries.getByPlaceholderText(placeholder)`
+- `queries.getByRole(role)`
+- `queries.getByTestId(testId)`
+- `queries.getByText(text)`
+- `queries.getByTitle(title)`
 
-An exampe test file `switch.test.js`:
+#### Playwright Test selectors
+In addition to the built-in Playwright Test selectors, the fixture adds:
+- `page.locator("alt=...")`
+- `page.locator("displayvalue=...")`
+- `page.locator("label=...")`
+- `page.locator("placeholder=...")`
+- `page.locator("testid=...")`
+- `page.locator("title=...")`
+
+#### Creating a test
+An example test file `switch.test.js`:
 ```javascript
 import { test as baseTest, expect } from "sitgent/playwright-test";
 import { fixtures } from "sitgent/fixtures";

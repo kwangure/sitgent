@@ -100,9 +100,6 @@ function patchPrettyFormat(options = {}) {
                             case "debug":
                                 replaceString = `var debug = console.log;`;
                                 break;
-                            case "screen":
-                                replaceString = `var screen = getQueriesForElement(document.body, queries, initialValue)`;
-                                break;
                             case "DOMCollection":
                                 break;
                             default:

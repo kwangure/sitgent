@@ -1,15 +1,6 @@
-import domTestingLibraryCode from "./dom-testling-library.code.js";
 import { selectors as _selectors } from "playwright";
 
 export async function queries({ page }, use) {
-    function addScriptTag() {
-        return page.addScriptTag({
-            content: `\n;console.log('domcontentloaded');\n${domTestingLibraryCode};`,
-            type: "module",
-        });
-    }
-    await addScriptTag();
-    page.on("domcontentloaded", addScriptTag);
     await _selectors.register("alt", () => ({
         query(root, selector) {
             return __dom_testing_library__.queryByAltText(root, selector);

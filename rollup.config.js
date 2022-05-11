@@ -11,7 +11,6 @@ export default {
     input: {
         fixtures: "./src/fixtures/index.js",
         plugin: "./src/plugin/index.js",
-        worker: "./src/plugin/worker.js",
     },
     output: {
         dir: "dist",

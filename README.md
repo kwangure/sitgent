@@ -36,12 +36,12 @@ In addition to the built-in Playwright Test selectors, the fixture adds:
 An example test file `switch.test.js`:
 ```javascript
 import { test as baseTest, expect } from "sitgent/playwright-test";
-import { fixtures } from "sitgent/fixtures";
+import { queries } from "sitgent/fixtures";
 
-const test = baseTest.extend(fixtures);
+const test = baseTest.extend({ queries });
 
 test("Toggle switch", async ({ page, queries }) => {
-    await page.goto("http://localhost:3000/components/switch");
+    await page.goto("/components/switch");
     const checkboxSwitch = await queries.getByRole("switch");
     await expect(checkboxSwitch).toBeChecked();
     await checkboxSwitch.click();
@@ -58,7 +58,17 @@ const config = {
     kit: {
         vite: {
             plugins: [
-                test(),
+                test({
+                    files: {
+                        // SvelteKit only allows loading files from 'config.kit.files' directories
+                        // If your tests are located in an external folder, add it here.
+                        // Defaults to ["test", "tests"]
+                        tests: ["the_tests"],
+                    },
+                    playwright: {
+                        // Playwright config
+                    }
+                }),
             ],
         },
     },

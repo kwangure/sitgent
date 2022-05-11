@@ -1,4 +1,3 @@
-import { serialize } from "../utils/object.js";
 import { Runner } from "./test-runner.js";
 /**
  * @param {{}} [options]
@@ -15,10 +14,6 @@ export default function sveltekitPluginTest(options = {}) {
         apply: "serve",
         configResolved(_config) {
             config = _config;
-            playwright.use = {
-                ...playwright.use,
-                viteConfig: serialize(config),
-            };
         },
         configureServer(_server) {
             server = _server;

@@ -2,6 +2,8 @@
   "name": "sitgent",
   "version": "0.0.6",
   "description": "A set of tools for testing Sveltish apps",
+  "main": "./index.cjs",
+  "module": "./index.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -cw",
@@ -28,9 +30,12 @@
     "playwright": "^1.22.0-alpha-1652194905000"
   },
   "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
     "./package.json": "./package.json",
     "./fixtures": "./dist/fixtures.js",
-    "./playwright-test": "./dist/playwright-test/index.js",
     "./plugin": "./dist/plugin.js"
   }
 }

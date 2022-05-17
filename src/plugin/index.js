@@ -2,7 +2,6 @@
 import domTestingLibraryCode from "./dom-testling-library.code.js";
 import MagicString from "magic-string";
 import path from "path";
-import { Runner } from "./test-runner.js";
 
 /**
  * @param {string} code
@@ -15,17 +14,13 @@ function isTransformed(code) {
  * @param {import("./types").PluginOptions & { _debug: boolean }} options
  * @returns {import("vite").Plugin}
  */
-export default function sveltekitPluginTest(options = {}) {
-    const { playwright: playwrightConfig = {}, _debug } = options;
+export function sveltekitPluginDtl(options = {}) {
+    const { _debug } = options;
     const testDirs = options?.files?.tests || ["test", "tests"];
-    /** @type {import("vite").ResolvedConfig} */
-    let config;
-    /** @type {import("vite").ViteDevServer} */
-    let server;
     return {
         name: "sveltekit-plugin-test",
         apply: "serve",
-        config(_config) {
+        config() {
 			return {
 				server: {
 					fs: {
@@ -38,31 +33,6 @@ export default function sveltekitPluginTest(options = {}) {
                 },
 			};
 		},
-        configResolved(_config) {
-            config = _config;
-        },
-        configureServer(_server) {
-            server = _server;
-            const protocol = config.server.https ? "https" : "http";
-            const port = config.server.port || 3000;
-            playwrightConfig.use = {
-                ...playwrightConfig.use,
-                baseURL: `${protocol}://localhost:${port}`,
-            };
-            const runner = new Runner({
-                importFile: server.ssrLoadModule,
-                playwrightConfig,
-            });
-            server.httpServer?.once("listening", async () => {
-                await runner.run();
-            });
-            server.watcher?.on("all", async () => {
-                if (runner.isRunning) {
-                    await runner.teardown();
-                }
-                await runner.run();
-            });
-        },
         async transform(code, id) {
             if (!id.endsWith(".svelte") || !isTransformed(code)) return;
             if (id.endsWith("generated/root.svelte")) {
@@ -76,7 +46,6 @@ export default function sveltekitPluginTest(options = {}) {
                     map: magicString.generateMap(),
                 };
             }
-            // TODO: Support [component].test.svelte
         },
     };
 }

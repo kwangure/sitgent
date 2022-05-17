@@ -1,7 +1,5 @@
 # sitgent
-An anagram of *testing*. An experimental Vite plugin that runs
-[@playwright/test](https://github.com/Microsoft/playwright) in
-[SvelteKit](https://github.com/sveltejs/kit) projects during development.
+An anagram of *testing*. A set of Vitest + Playwright utilities for SvelteKit.
 
 ## Getting Started
 ### Installation
@@ -32,42 +30,22 @@ In addition to the built-in Playwright Test selectors, the fixture adds:
 - `page.locator("testid=...")`
 - `page.locator("title=...")`
 
-#### Creating a test
-An example test file `switch.test.js`:
-```javascript
-import { test as baseTest, expect } from "sitgent/playwright-test";
-import { queries } from "sitgent/fixtures";
-
-const test = baseTest.extend({ queries });
-
-test("Toggle switch", async ({ page, queries }) => {
-    await page.goto("/components/switch");
-    const checkboxSwitch = await queries.getByRole("switch");
-    await expect(checkboxSwitch).toBeChecked();
-    await checkboxSwitch.click();
-    await expect(checkboxSwitch).not.toBeChecked();
-});
-```
-
 In your `svelte.config.js`:
 ```javascript
-import test from "sitgent/plugin";
+import { sveltekitPluginDtl } from "sitgent";
 
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
     kit: {
         vite: {
             plugins: [
-                test({
+                sveltekitPluginDtl({
                     files: {
                         // SvelteKit only allows loading files from 'config.kit.files' directories
                         // If your tests are located in an external folder, add it here.
                         // Defaults to ["test", "tests"]
                         tests: ["the_tests"],
                     },
-                    playwright: {
-                        // Playwright config
-                    }
                 }),
             ],
         },

@@ -1,51 +1,54 @@
-import { selectors as _selectors } from "playwright";
+import { selectors } from "playwright";
 
-export async function queries({ page }, use) {
-    await _selectors.register("alt", () => ({
+const selectorsLoaded = Promise.all([
+    selectors.register("alt", () => ({
         query(root, selector) {
             return __dom_testing_library__.queryByAltText(root, selector);
         },
         queryAll(root, selector) {
             return __dom_testing_library__.queryAllByAltText(root, selector);
         },
-    }));
+    })),
 
-    await _selectors.register("displayvalue", () => ({
+    selectors.register("displayvalue", () => ({
         query(root, selector) {
             return __dom_testing_library__.queryByDisplayValue(root, selector);
         },
         queryAll(root, selector) {
             return __dom_testing_library__.queryAllByDisplayValue(root, selector);
         },
-    }));
+    })),
 
-    await _selectors.register("label", () => ({
+    selectors.register("label", () => ({
         query(root, selector) {
             return __dom_testing_library__.queryByLabelText(root, selector);
         },
         queryAll(root, selector) {
             return __dom_testing_library__.queryAllByLabelText(root, selector);
         },
-    }));
+    })),
 
-    await _selectors.register("placeholder", () => ({
+    selectors.register("placeholder", () => ({
         query(root, selector) {
             return __dom_testing_library__.queryByPlaceholderText(root, selector);
         },
         queryAll(root, selector) {
             return __dom_testing_library__.queryAllByPlaceholderText(root, selector);
         },
-    }));
+    })),
 
-    await _selectors.register("title", () => ({
+    selectors.register("title", () => ({
         query(root, selector) {
             return __dom_testing_library__.queryByTitle(root, selector);
         },
         queryAll(root, selector) {
             return __dom_testing_library__.queryAllByTitle(root, selector);
         },
-    }));
+    })),
+]);
 
+export async function createQueries(page) {
+    await selectorsLoaded;
     const queries = {
         /** Selectors built into playwright */
         getByRole(role) {
@@ -75,9 +78,6 @@ export async function queries({ page }, use) {
             return page.locator(`title=${title}`);
         },
     };
-    await use(queries);
-}
 
-export const fixtures = {
-    queries,
-};
+    return queries;
+}

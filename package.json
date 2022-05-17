@@ -30,12 +30,12 @@
     "playwright": "^1.22.0-alpha-1652194905000"
   },
   "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
-    },
     "./package.json": "./package.json",
-    "./fixtures": "./dist/fixtures.js",
-    "./plugin": "./dist/plugin.js"
+    "./matchers": "./dist/matchers.js",
+    "./plugin": "./dist/plugin.js",
+    "./queries": "./dist/queries.js"
+  },
+  "peerDependencies": {
+    "vitest": "^0.12.6"
   }
 }

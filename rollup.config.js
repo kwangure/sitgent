@@ -9,14 +9,15 @@ import MagicString from "magic-string";
 
 export default {
     input: {
-        fixtures: "./src/fixtures/index.js",
+        matchers: "./src/matchers/index.js",
         plugin: "./src/plugin/index.js",
+        queries: "./src/queries/index.js",
     },
     output: {
         dir: "dist",
         format: "esm",
     },
-    external: ["playwright", "@playwright/test"],
+    external: ["playwright", "vitest"],
     plugins: [
         bundleImports(),
         commonjs(),

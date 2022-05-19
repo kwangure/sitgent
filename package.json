@@ -2,8 +2,6 @@
   "name": "sitgent",
   "version": "0.0.6",
   "description": "A set of tools for testing Sveltish apps",
-  "main": "./index.cjs",
-  "module": "./index.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -cw",

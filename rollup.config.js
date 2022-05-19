@@ -2,10 +2,17 @@ import { copy, read, write } from "./src/utils/filesystem.js";
 import { bundleImports } from "rollup-plugin-bundle-imports";
 import commonjs from "@rollup/plugin-commonjs";
 import fs from "fs";
-import pack from './scripts/pack.js';
+import pack from "./scripts/pack.js";
+import pkg from "./package.json";
 import resolve from "@rollup/plugin-node-resolve";
 import walk from "acorn-walk";
 import MagicString from "magic-string";
+
+const external = [].concat(
+	Object.keys(pkg.dependencies || {}),
+	Object.keys(pkg.peerDependencies || {}),
+	Object.keys(process.binding("natives")),
+);
 
 export default {
     input: {
@@ -17,7 +24,9 @@ export default {
         dir: "dist",
         format: "esm",
     },
-    external: ["playwright", "vitest"],
+    external: (id) => {
+        return id.startsWith("node:") || external.includes(id);
+    },
     plugins: [
         bundleImports(),
         commonjs(),

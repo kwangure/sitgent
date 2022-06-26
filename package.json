@@ -1,6 +1,6 @@
 {
   "name": "sitgent",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A set of tools for testing Sveltish apps",
   "scripts": {
     "build": "rollup -c",

@@ -33,6 +33,13 @@ export function sveltekitPluginDtl(options = {}) {
                 },
 			};
 		},
+        configResolved(config) {
+			process.env.VITE_SERVER_PROTOCOL = config.server.https
+				? 'https://'
+				: 'http://';
+			process.env.VITE_SERVER_HOST = config.server.host ?? 'localhost';
+			process.env.VITE_SERVER_PORT = config.server.port ?? 5173;
+		},
         async transform(code, id) {
             if (!id.endsWith(".svelte") || !isTransformed(code)) return;
             if (id.endsWith("generated/root.svelte")) {

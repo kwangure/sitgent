@@ -11,7 +11,7 @@
   "author": "Kafungo Wangure",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "magic-string": "^0.26.1",
     "rollup": "^2.71.1",

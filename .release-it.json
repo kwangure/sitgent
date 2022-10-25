@@ -1,0 +1,9 @@
+{
+    "git": {
+        "commitMessage": "chore(release): v${version}"
+    },
+    "after:bump": "npm run build",
+    "hooks": {
+        "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    }
+}

@@ -35,6 +35,6 @@
     "./queries": "./dist/queries.js"
   },
   "peerDependencies": {
-    "vitest": "^0.12.6"
+    "vitest": "^0.24.3"
   }
 }

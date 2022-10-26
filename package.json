@@ -1,6 +1,6 @@
 {
   "name": "sitgent",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A set of tools for testing Sveltish apps",
   "scripts": {
     "release": "release-it"

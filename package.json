@@ -3,8 +3,6 @@
   "version": "0.0.9",
   "description": "A set of tools for testing Sveltish apps",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -cw",
     "release": "release-it"
   },
   "keywords": [],

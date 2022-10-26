@@ -1,10 +1,11 @@
 import { constructURLBasedOnBaseURL } from "playwright-core/lib/utils";
 
-const fail = (message) => ({
-    message,
-    pass: false,
-});
-const locatorFail = (matcher) => fail(`'${matcher}' expected a locator object. Usage: await expect(locator).${matcher}()`);
+function locatorFail(matcher) {
+    return ({
+        message: `'${matcher}' expected a locator object. Usage: await expect(locator).${matcher}()`,
+        pass: false,
+    });
+}
 
 async function pass(locator, expression, options) {
     const result = await locator._expect("", expression, options);
